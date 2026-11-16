@@ -1,0 +1,105 @@
+from datetime import date, timedelta
+
+
+
+def menu_livros():
+    while True:
+        print("\n--- Livros ---")
+        print("1. Cadastrar livro")
+        print("2. Listar livros")
+        print("0. Voltar")
+        option = input("Escolha uma opção: ").strip()
+
+        if option == "1":
+            pass
+        elif option == "2":
+            pass
+        elif option == "0":
+            return
+        else:
+            print("Opção inválida.")
+
+
+def menu_usuarios():
+    while True:
+        print("\n--- Usuários ---")
+        print("1. Cadastrar usuário")
+        print("2. Listar usuários")
+        print("0. Voltar")
+        option = input("Escolha uma opção: ").strip()
+
+        if option == "1":
+            pass
+        elif option == "2":
+            pass
+        elif option == "0":
+            return
+        else:
+            print("Opção inválida.")
+
+
+def menu_emprestimos():
+    while True:
+        print("\n--- Empréstimos ---")
+        print("1. Registrar empréstimo")
+        print("2. Registrar devolução")
+        print("3. Listar empréstimos ativos")
+        print("0. Voltar")
+        option = input("Escolha uma opção: ").strip()
+
+        if option == "1":
+            pass
+        elif option == "2":
+            pass
+        elif option == "3":
+            pass
+        elif option == "0":
+            return
+        else:
+            print("Opção inválida.")
+
+
+def menu_relatorios():
+    while True:
+        print("\n--- Relatórios ---")
+        print("1. Resumo da biblioteca")
+        print("2. Empréstimos ativos")
+        print("0. Voltar")
+        option = input("Escolha uma opção: ").strip()
+
+        if option == "1":
+            pass
+        elif option == "2":
+            pass
+        elif option == "0":
+            return
+        else:
+            print("Opção inválida.")
+
+
+def main():
+    while True:
+        print("\n=== Sistema da Biblioteca ===")
+        print("1. Livros")
+        print("2. Usuários")
+        print("3. Empréstimos")
+        print("4. Relatórios")
+        print("0. Sair")
+        option = input("Escolha uma opção: ").strip()
+
+        if option == "1":
+            menu_livros()
+        elif option == "2":
+            menu_usuarios()
+        elif option == "3":
+            menu_emprestimos()
+        elif option == "4":
+            menu_relatorios()
+        elif option == "0":
+            print("Até logo!")
+            break
+        else:
+            print("Opção inválida.")
+
+if __name__ == "__main__":
+    main()
