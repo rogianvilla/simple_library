@@ -1,6 +1,12 @@
 from datetime import date, timedelta
 
+from users import Users
+from books import Books
+from loans import Loans
 
+users = Users()
+books = Books()
+loans = Loans()
 
 def menu_livros():
     while True:
