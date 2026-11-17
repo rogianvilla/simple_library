@@ -1,0 +1,18 @@
+[
+    {
+        "title": "O Nome do Vento",
+        "author": "Patrick Rothfuss",
+        "year": 2007,
+        "amount": 5,
+        "amount_available": 5,
+        "id": 1
+    },
+    {
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "year": 2008,
+        "amount": 7,
+        "amount_available": 7,
+        "id": 2
+    }
+]

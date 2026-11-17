@@ -16,10 +16,17 @@ def menu_livros():
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
+        #Lẽ os inputs do usuário para cadastrar um livro
         if option == "1":
-            pass
+            title = input("Título do livro: ").strip()
+            author = input("Autor do livro: ").strip()
+            year = int(input("Ano de publicação: "))
+            amount = int(input("Quantidade de cópias: "))
+            amount_available = int(input("Quantidade disponível: "))
+
+            books.add_book(title, author, year, amount, amount_available)
         elif option == "2":
-            pass
+            books.list_books()
         elif option == "0":
             return
         else:
@@ -102,6 +109,7 @@ def main():
         elif option == "4":
             menu_relatorios()
         elif option == "0":
+            books.save_books()
             print("Até logo!")
             break
         else:
