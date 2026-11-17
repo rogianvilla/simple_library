@@ -1,6 +1,4 @@
-from datetime import date, timedelta
-
-from indeces import Indices
+from indices import Indices
 from users import Users
 from books import Books
 from loans import Loans
@@ -31,7 +29,28 @@ def menu_livros():
 
             indices.get_indices()['books']['last_id'] = book_id
         elif option == "2":
-            books.list_books()
+            while True:
+                print("\n--- Listar Livros ---")
+                print("1. Listar todos os livros")
+                print("2. Listar livros por autor")
+                print("3. Listar livros por titulo")
+                print("4. Listar livros por ano de publicação")
+                print("0. Voltar")
+                list_option = input("Escolha uma opção: ").strip()
+
+                if list_option == "1":
+                    books.list_books()
+                elif list_option == "2":
+                    books.list_books_by_author(input("Digite o nome do autor: ").strip())
+                elif list_option == "3":
+                    books.list_books_by_title(input("Digite o título do livro: ").strip())
+                elif list_option == "4":
+                    books.list_books_by_year(int(input("Digite o ano de publicação: ")))
+                elif list_option == "0":
+                    break
+                else:
+                    print("Opção inválida.")
+
         elif option == "0":
             return
         else:

@@ -29,11 +29,34 @@ class Books:
         }
         self.books.append(book)
 
-    #Método para listar todos os livros cadastrados. Se não houver livros, exibe uma mensagem informando que nenhum livro foi cadastrado. Caso contrário, percorre a lista de livros e imprime as informações de cada livro.
+    #Método para listar todos os livros cadastrados.
     def list_books(self):
+        print("\n--- Lista de Livros ---")
         if not self.books:
             print("Nenhum livro cadastrado.")
             return
         for book in self.books:
             print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+
+    #Método para listar livros por autor.
+    def list_books_by_author(self, author):
+        print(f"\n--- Livros de {author} ---")
+        filtered_books = [book for book in self.books if book['author'].lower() == author.lower()]
+        for book in filtered_books:
+            print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+
+    #Método para listar livros por ano de publicação.
+    def list_books_by_year(self, year):
+        print(f"\n--- Livros do ano {year} ---")
+        filtered_books = [book for book in self.books if book['year'] == year]
+        for book in filtered_books:
+            print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+
+    #Método para listar livros por título.
+    def list_books_by_title(self, title):
+        print(f"\n--- Livros com título'{title}' ---")
+        filtered_books = [book for book in self.books if title.lower() in book['title'].lower()]
+        for book in filtered_books:
+            print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+
     
