@@ -14,5 +14,13 @@
         "amount": 7,
         "amount_available": 7,
         "id": 2
+    },
+    {
+        "title": "Dom Casmurro",
+        "author": "Machado de Assis",
+        "year": 1899,
+        "amount": 3,
+        "amount_available": 3,
+        "id": 3
     }
 ]

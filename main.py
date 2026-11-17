@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from indeces import Indices
 from users import Users
 from books import Books
 from loans import Loans
@@ -7,6 +8,7 @@ from loans import Loans
 users = Users()
 books = Books()
 loans = Loans()
+indices = Indices()
 
 def menu_livros():
     while True:
@@ -23,8 +25,11 @@ def menu_livros():
             year = int(input("Ano de publicação: "))
             amount = int(input("Quantidade de cópias: "))
             amount_available = int(input("Quantidade disponível: "))
+            book_id = indices.get_indices()['books']['last_id'] + 1
 
-            books.add_book(title, author, year, amount, amount_available)
+            books.add_book(title, author, year, amount, amount_available, book_id)
+
+            indices.get_indices()['books']['last_id'] = book_id
         elif option == "2":
             books.list_books()
         elif option == "0":
@@ -110,6 +115,7 @@ def main():
             menu_relatorios()
         elif option == "0":
             books.save_books()
+            indices.save_indices()
             print("Até logo!")
             break
         else:

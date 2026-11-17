@@ -3,9 +3,6 @@ import json
 from pathlib import Path
 
 class Books:
-    #Gerador de IDs para os livros
-    _id_generator = itertools.count(start=1)
-
     #Construtor da classe Books, que carrega os livros do arquivo JSON se ele existir, ou inicializa uma lista vazia caso contrário.
     def __init__(self):
         if Path("Collections/books.json").exists():
@@ -21,14 +18,14 @@ class Books:
 
 
     #Método para adicionar um livro à coleção. Recebe os parâmetros do livro, cria um dicionário representando o livro e adiciona à lista de livros.
-    def add_book(self, title, author, year, amount, amount_available):
+    def add_book(self, title, author, year, amount, amount_available, book_id):
         book = {
             'title': title, 
             'author': author,
             'year': year,
             'amount': amount,
             'amount_available': amount_available,
-            'id': next(self._id_generator)
+            'id': book_id
         }
         self.books.append(book)
 
