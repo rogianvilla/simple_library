@@ -29,11 +29,18 @@ class Books:
         }
         self.books.append(book)
 
+    def get_book(self, book_id):
+        for book in self.books:
+            if book['id'] == book_id:
+                return book
+        return None
+
     #Método para listar todos os livros cadastrados.
     def list_books(self):
         print("\n--- Lista de Livros ---")
         if not self.books:
             print("Nenhum livro cadastrado.")
+            return
         else:
             for book in self.books:
                 print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
@@ -71,4 +78,14 @@ class Books:
             for book in filtered_books:
                 print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
 
-    
+    def update_book(self, book_id, new_title, new_author, new_year, new_amount, new_amount_available):
+        for book in self.books:
+            if book['id'] == book_id:
+                book['title'] = new_title
+                book['author'] = new_author
+                book['year'] = new_year
+                book['amount'] = new_amount
+                book['amount_available'] = new_amount_available
+                print(f"Livro com ID {book_id} atualizado com sucesso.")
+                return
+        print(f"Nenhum livro encontrado com o ID {book_id}.")

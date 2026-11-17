@@ -13,6 +13,8 @@ def menu_livros():
         print("\n--- Livros ---")
         print("1. Cadastrar livro")
         print("2. Listar livros")
+        print("3. Atualizar livro")
+        print("4. Remover livro")
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
@@ -30,27 +32,53 @@ def menu_livros():
             indices.get_indices()['books']['last_id'] = book_id
         elif option == "2":
             while True:
-                print("\n--- Listar Livros ---")
-                print("1. Listar todos os livros")
-                print("2. Listar livros por autor")
-                print("3. Listar livros por titulo")
-                print("4. Listar livros por ano de publicação")
+                print("\n--- Listar Livros para atualizar ---")
+                print("1. Listar livros por autor")
+                print("2. Listar livros por titulo")
+                print("3. Listar livros por ano de publicação")
                 print("0. Voltar")
                 list_option = input("Escolha uma opção: ").strip()
-
+                        
                 if list_option == "1":
-                    books.list_books()
-                elif list_option == "2":
                     books.list_books_by_author(input("Digite o nome do autor: ").strip())
-                elif list_option == "3":
+                elif list_option == "2":
                     books.list_books_by_title(input("Digite o título do livro: ").strip())
-                elif list_option == "4":
+                elif list_option == "3":
                     books.list_books_by_year(int(input("Digite o ano de publicação: ")))
                 elif list_option == "0":
                     break
                 else:
-                    print("Opção inválida.")
+                    print("Opção inválida.")    
+        elif option == "3":
+            print("\n--- Listar Livros para atualizar ---")
+            print("1. Listar livros por autor")
+            print("2. Listar livros por titulo")
+            print("3. Listar livros por ano de publicação")
+            print("0. Voltar")
+            list_option = input("Escolha uma opção: ").strip()
+                   
+            if list_option == "1":
+                books.list_books_by_author(input("Digite o nome do autor: ").strip())
+            elif list_option == "2":
+                books.list_books_by_title(input("Digite o título do livro: ").strip())
+            elif list_option == "3":
+                books.list_books_by_year(int(input("Digite o ano de publicação: ")))
+            elif list_option == "0":
+                break
+            else:
+                print("Opção inválida.")
 
+            book_id = int(input("Digite o ID do livro que deseja atualizar: "))
+            new_title = input("Novo título do livro: ").strip()
+            new_author = input("Novo autor do livro: ").strip()
+            new_year = int(input("Novo ano de publicação: "))
+            new_amount = int(input("Nova quantidade de cópias: "))
+            book = books.get_book(book_id)
+            new_amount_available = book['amount_available'] + (new_amount - book['amount']) if book else 0
+            books.update_book(book_id, new_title, new_author, new_year, new_amount, new_amount_available)
+
+        elif option == "4":
+            pass
         elif option == "0":
             return
         else:
