@@ -18,7 +18,7 @@ def menu_livros():
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
-        #Lẽ os inputs do usuário para cadastrar um livro
+        #Lê os inputs do usuário para cadastrar um livro
         if option == "1":
             title = input("Título do livro: ").strip()
             author = input("Autor do livro: ").strip()
@@ -29,8 +29,10 @@ def menu_livros():
 
             books.add_book(title, author, year, amount, amount_available, book_id)
 
+            #Atualiza o último ID de livro no arquivo de índices
             indices.get_indices()['books']['last_id'] = book_id
         elif option == "2":
+            #Método para listar livros cadastrados, por autor, por título ou por ano de publicação
             while True:
                 print("\n--- Listar Livros para atualizar ---")
                 print("1. Listar livros por autor")
@@ -50,35 +52,64 @@ def menu_livros():
                 else:
                     print("Opção inválida.")    
         elif option == "3":
+            #Método para atualizar livros cadastrados
             print("\n--- Listar Livros para atualizar ---")
-            print("1. Listar livros por autor")
-            print("2. Listar livros por titulo")
-            print("3. Listar livros por ano de publicação")
-            print("0. Voltar")
-            list_option = input("Escolha uma opção: ").strip()
-                   
-            if list_option == "1":
-                books.list_books_by_author(input("Digite o nome do autor: ").strip())
-            elif list_option == "2":
-                books.list_books_by_title(input("Digite o título do livro: ").strip())
-            elif list_option == "3":
-                books.list_books_by_year(int(input("Digite o ano de publicação: ")))
-            elif list_option == "0":
-                break
-            else:
-                print("Opção inválida.")
+            while True:
+                print("1. Listar livros por autor")
+                print("2. Listar livros por titulo")
+                print("3. Listar livros por ano de publicação")
+                print("0. Voltar")
+                list_option = input("Escolha uma opção: ").strip()
+                    
+                if list_option == "1":
+                    books.list_books_by_author(input("Digite o nome do autor: ").strip())
+                    break
+                elif list_option == "2":
+                    books.list_books_by_title(input("Digite o título do livro: ").strip())
+                    break
+                elif list_option == "3":
+                    books.list_books_by_year(int(input("Digite o ano de publicação: ")))
+                    break
+                else:
+                    print("Opção inválida.")
 
-            book_id = int(input("Digite o ID do livro que deseja atualizar: "))
-            new_title = input("Novo título do livro: ").strip()
-            new_author = input("Novo autor do livro: ").strip()
-            new_year = int(input("Novo ano de publicação: "))
-            new_amount = int(input("Nova quantidade de cópias: "))
+            book_id = int(input("\nDigite o ID do livro que deseja atualizar: "))
             book = books.get_book(book_id)
+            print("\nDigite os novos dados do livro (deixe em branco para manter o valor atual):")
+            new_title = input("Novo título do livro: ").strip() if input("Novo título do livro: ").strip() != "" else book['title']
+            new_author = input("Novo autor do livro: ").strip() if input("Novo autor do livro: ").strip() != "" else book['author']
+            new_year = int(input("Novo ano de publicação: ")) if input("Novo ano de publicação: ").strip() != "" else book['year']
+            new_input = input("Nova quantidade de cópias: ").strip()
+            new_amount = int(new_input) if new_input != "" else book['amount']
             new_amount_available = book['amount_available'] + (new_amount - book['amount']) if book else 0
             books.update_book(book_id, new_title, new_author, new_year, new_amount, new_amount_available)
 
         elif option == "4":
-            pass
+            #Método para deletar livros cadastrados
+            print("\n--- Listar Livros para deletar ---")
+            while True:
+                print("1. Listar livros por autor")
+                print("2. Listar livros por titulo")
+                print("3. Listar livros por ano de publicação")
+                print("0. Voltar")
+                list_option = input("Escolha uma opção: ").strip()
+                        
+                if list_option == "1":
+                    books.list_books_by_author(input("Digite o nome do autor: ").strip())
+                    break
+                elif list_option == "2":
+                    books.list_books_by_title(input("Digite o título do livro: ").strip())
+                    break
+                elif list_option == "3":
+                    books.list_books_by_year(int(input("Digite o ano de publicação: ")))
+                    break
+                else:
+                    print("Opção inválida.")
+
+            book_id = int(input("\nDigite o ID do livro que deseja deletar: "))
+
+            book = books.remove_book(book_id)
+
         elif option == "0":
             return
         else:

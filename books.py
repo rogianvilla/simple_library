@@ -89,3 +89,11 @@ class Books:
                 print(f"Livro com ID {book_id} atualizado com sucesso.")
                 return
         print(f"Nenhum livro encontrado com o ID {book_id}.")
+
+    def remove_book(self, book_id):
+        for book in self.books:
+            if book['id'] == book_id:
+                self.books.remove(book)
+                print(f"Livro com ID {book_id} removido com sucesso.")
+                return
+        print(f"Nenhum livro encontrado com o ID {book_id}.")
