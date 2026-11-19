@@ -115,19 +115,68 @@ def menu_livros():
         else:
             print("Opção inválida.")
 
-
+#Menu usuários com opções para cadastrar, listar atualizar e excluir usuários
 def menu_usuarios():
     while True:
         print("\n--- Usuários ---")
         print("1. Cadastrar usuário")
-        print("2. Listar usuários")
+        print("2. Consultar usuários")
+        print("3. Atualizar usuários")
+        print("4. Excluir usuário")
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
         if option == "1":
-            pass
+            name = input("Nome do usuário: ").strip()
+            email = input("Email do usuário: ").strip()
+            cpf = input("CPF do usuário: ").strip()
+            cpf = ''.join(filter(str.isdigit, cpf))
+
+            if users.verify_user(cpf):
+                print(f"Usuário com CPF {cpf} já está cadastrado.")
+            else:
+                if Users.cpf_validate(cpf):
+                    users.add_user(name, email, cpf)
+                    print(f"Usuário {name} cadastrado com sucesso.")
+                else:
+                    print(f"CPF {cpf} inválido.")
+
         elif option == "2":
-            pass
+            print("\n--- Consultar Usuário ---")
+            cpf = input("Digite o CPF do usuário que deseja consultar: ").strip()
+            cpf = ''.join(filter(str.isdigit, cpf))
+            user = users.get_user(cpf)
+            if user:
+                print(f"Nome: {user['name']}, Email: {user['email']}, CPF: {user['cpf']}")
+            else:
+                print(f"Usuário com CPF {cpf} não encontrado.")
+        elif option == "3":
+            print("\n--- Atualizar Usuário ---")
+            cpf = input("Digite o CPF do usuário que deseja atualizar: ").strip()
+            cpf = ''.join(filter(str.isdigit, cpf))
+            user = users.get_user(cpf)
+            print("\nDigite os novos dados do usuário (deixe em branco para manter o valor atual):")
+            if user:
+                new_input_name = input("Novo nome: ").strip()
+                new_name = new_input_name if new_input_name != "" else user['name']
+                new_input_email = input("Novo email: ").strip()
+                new_email = new_input_email if new_input_email != "" else user['email']
+                users.update_user(cpf, new_name, new_email)
+            else:
+                print(f"Usuário com CPF {cpf} não encontrado.")
+        elif option == "4":
+            print("\n--- Excluir Usuário ---")
+            cpf = input("Digite o CPF do usuário que deseja excluir: ").strip()
+            cpf = ''.join(filter(str.isdigit, cpf))
+
+            if users.verify_user(cpf):
+                confirm = input(f"Tem certeza que deseja excluir o usuário com CPF {cpf}? (s/n): ").strip().lower()
+                if confirm == "s":
+                    users.remove_user(cpf)
+                else:
+                    print("Exclusão cancelada.")
+            else:
+                print(f"Usuário com CPF {cpf} não encontrado.")
         elif option == "0":
             return
         else:
@@ -159,13 +208,16 @@ def menu_relatorios():
     while True:
         print("\n--- Relatórios ---")
         print("1. Listas todos os livros cadastrados")
-        print("2. Empréstimos ativos")
+        print("2. Lista todos os usuários cadastrados")
+        print("3. Lista todos os empréstimos ativos")
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
         if option == "1":
             books.list_books()
         elif option == "2":
+            users.list_all_users()
+        elif option == "3":
             pass
         elif option == "0":
             return
@@ -194,6 +246,7 @@ def main():
         elif option == "0":
             books.save_books()
             indices.save_indices()
+            users.save_users()
             print("Até logo!")
             break
         else:
