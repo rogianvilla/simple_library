@@ -158,13 +158,13 @@ def menu_emprestimos():
 def menu_relatorios():
     while True:
         print("\n--- Relatórios ---")
-        print("1. Resumo da biblioteca")
+        print("1. Listas todos os livros cadastrados")
         print("2. Empréstimos ativos")
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
         if option == "1":
-            pass
+            books.list_books()
         elif option == "2":
             pass
         elif option == "0":
