@@ -25,12 +25,12 @@ def menu_livros():
             year = int(input("Ano de publicação: "))
             amount = int(input("Quantidade de cópias: "))
             amount_available = int(input("Quantidade disponível: "))
-            book_id = indices.get_indices()['books']['last_id'] + 1
+            book_id = indices.get_indices()[0]['books']['last_id'] + 1
 
             books.add_book(title, author, year, amount, amount_available, book_id)
 
             #Atualiza o último ID de livro no arquivo de índices
-            indices.get_indices()['books']['last_id'] = book_id
+            indices.get_indices()[0]['books']['last_id'] = book_id
         elif option == "2":
             #Método para listar livros cadastrados, por autor, por título ou por ano de publicação
             while True:
@@ -193,7 +193,32 @@ def menu_emprestimos():
         option = input("Escolha uma opção: ").strip()
 
         if option == "1":
-            pass
+            book_id = int(input("Digite o ID do livro que deseja emprestar: "))
+            cpf = input("Digite o CPF do usuário que está realizando o empréstimo: ").strip()
+            cpf = ''.join(filter(str.isdigit, cpf))
+            return_date = None
+            returned = False
+            loan_id = indices.get_indices()[0]['loans']['last_id'] + 1
+
+            if not books.get_book(book_id):
+                print(f"Livro com ID {book_id} não encontrado.")
+                continue
+
+            if not users.verify_user(cpf):
+                print(f"Usuário com CPF {cpf} não encontrado.")
+                continue
+
+            book = books.get_book(book_id)
+            if book['amount_available'] <= 0:
+                print(f"Não há cópias disponíveis do livro '{book['title']}' para empréstimo.")
+                continue
+
+            loans.add_loan(book_id, cpf, return_date, returned, loan_id)
+            books.update_book(book_id, book['title'], book['author'], book['year'], book['amount'], book['amount_available'] - 1)
+            print(f"Empréstimo registrado com sucesso para o livro '{book['title']}' ao usuário com CPF {cpf}.")
+            print(f"Você deve devolver o livro em sete dias.")
+            indices.get_indices()[0]['loans']['last_id'] = loan_id
+
         elif option == "2":
             pass
         elif option == "3":
@@ -247,6 +272,7 @@ def main():
             books.save_books()
             indices.save_indices()
             users.save_users()
+            loans.save_loans()
             print("Até logo!")
             break
         else:

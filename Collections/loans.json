@@ -1,0 +1,11 @@
+[
+    {
+        "book_id": 1,
+        "cpf": "53062987022",
+        "loan_date": "23/11/2026",
+        "expected_retur_date": "30/11/2026",
+        "return_date": null,
+        "returned": false,
+        "loan_id": 2
+    }
+]
