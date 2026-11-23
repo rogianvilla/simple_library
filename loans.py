@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from datetime import date, datetime, timedelta
+from users import Users
 
 class Loans:
     def __init__(self):
@@ -28,3 +29,29 @@ class Loans:
             'loan_id': loan_id
         }
         self.loans.append(loan)
+
+    def list_all_loans(self):
+        if not self.loans:
+            print("Nenhum empréstimo registrado.")
+            return
+        else:
+            for loan in self.loans:
+                print(f"ID do Empréstimo: {loan['loan_id']}, ID do Livro: {loan['book_id']}, CPF do Usuário: {loan['cpf']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")
+
+    def get_loans_by_user(self, cpf):
+        user_loans = [loan for loan in self.loans if loan['cpf'] == cpf]
+        if not user_loans:
+            print(f"Nenhum empréstimo encontrado para o usuário com CPF {cpf}.")
+            return
+        else:
+            for loan in user_loans:
+                print(f"ID do Empréstimo: {loan['loan_id']}, ID do Livro: {loan['book_id']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")
+
+    def get_loans_by_book(self, book_id):
+        book_loans = [loan for loan in self.loans if loan['book_id'] == book_id]
+        if not book_loans:
+            print(f"Nenhum empréstimo encontrado para o livro com ID {book_id}.")
+            return
+        else:
+            for loan in book_loans:
+                print(f"ID do Empréstimo: {loan['loan_id']}, CPF do Usuário: {loan['cpf']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")

@@ -33,6 +33,7 @@ class Users:
         return False
 
     #Método para obter as informações de um usuário com base no CPF fornecido. Retorna o dicionário do usuário se encontrado, caso contrário, retorna None.
+    @staticmethod
     def get_user(self, cpf):
         for user in self.users:
             if user['cpf'] == cpf:
