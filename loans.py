@@ -31,7 +31,7 @@ class Loans:
         }
         self.loans.append(loan)
 
-    def list_all__active_loans(self):
+    def list_all_active_loans(self):
         if not self.loans:
             print("Nenhum empréstimo registrado.")
             return
@@ -41,6 +41,18 @@ class Loans:
             for loan in self.loans:
                 if not loan['returned']:
                     print_data.append([loan['loan_id'], loan['book_id'], loan['cpf'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
+
+            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
+
+    def list_all_loans(self):
+        if not self.loans:
+            print("Nenhum empréstimo registrado.")
+            return
+        else:
+            print_data = []
+
+            for loan in self.loans:
+                print_data.append([loan['loan_id'], loan['book_id'], loan['cpf'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
 
             print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
 
@@ -61,3 +73,17 @@ class Loans:
         else:
             for loan in book_loans:
                 print(f"ID do Empréstimo: {loan['loan_id']}, CPF do Usuário: {loan['cpf']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")
+
+    def update_loan(self, book_id, cpf):
+        for loan in self.loans:
+            if loan['book_id'] == book_id and loan['cpf'] == cpf:
+                loan['returned'] = True
+                loan['return_date'] = datetime.now().strftime("%d/%m/%Y")
+                return True
+        return False
+
+    def get_active_loan(self, cpf, book_id):
+        for loan in self.loans:
+            if loan['cpf'] == cpf and loan['book_id'] == book_id and loan['returned'] == False:
+                return True
+        return False

@@ -7,5 +7,14 @@
         "return_date": null,
         "returned": false,
         "loan_id": 2
+    },
+    {
+        "book_id": 2,
+        "cpf": "67892832009",
+        "loan_date": "24/11/2026",
+        "expected_retur_date": "01/12/2026",
+        "return_date": "24/11/2026",
+        "returned": true,
+        "loan_id": 3
     }
 ]

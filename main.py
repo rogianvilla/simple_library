@@ -195,7 +195,7 @@ def menu_emprestimos():
         if option == "1":
             book_id = int(input("Digite o ID do livro que deseja emprestar: "))
             cpf = input("Digite o CPF do usuário que está realizando o empréstimo: ").strip()
-            cpf = ''.join(filter(str.isdigit, cpf))
+            cpf = int(''.join(filter(str.isdigit, cpf)))
             return_date = None
             returned = False
             loan_id = indices.get_indices()[0]['loans']['last_id'] + 1
@@ -213,19 +213,37 @@ def menu_emprestimos():
                 print(f"Não há cópias disponíveis do livro '{book['title']}' para empréstimo.")
                 continue
 
-            loans.add_loan(book_id, cpf, return_date, returned, loan_id)
-            books.update_book(book_id, book['title'], book['author'], book['year'], book['amount'], book['amount_available'] - 1)
-            print(f"Empréstimo registrado com sucesso para o livro '{book['title']}' ao usuário com CPF {cpf}.")
-            print(f"Você deve devolver o livro em sete dias.")
-            indices.get_indices()[0]['loans']['last_id'] = loan_id
+            if loans.get_active_loan(cpf, book_id):
+                print(f"O usuário com CPF {cpf} já possui um empréstimo ativo para o livro '{book['title']}'.")
+            else:
+                loans.add_loan(book_id, cpf, return_date, returned, loan_id)
+                books.update_book(book_id, book['title'], book['author'], book['year'], book['amount'], book['amount_available'] - 1)
+                print(f"Empréstimo registrado com sucesso para o livro '{book['title']}' ao usuário com CPF {cpf}.")
+                print(f"Você deve devolver o livro em sete dias.")
+                indices.get_indices()[0]['loans']['last_id'] = loan_id
 
         elif option == "2":
-            pass
+            book_id = int(input("Digite o ID do livro que deseja devolver: "))
+            cpf = input("Digite o CPF do usuário que realizou o empréstimo: ").strip()
+            cpf = ''.join(filter(str.isdigit, cpf))
+
+            book = books.get_book(book_id)
+            
+            if not loans.get_active_loan(cpf, book_id):
+                print(f"Empréstimo não encontrado para o livro com ID {book_id} e usuário com CPF {cpf}.")
+            else:
+                if loans.update_loan(book_id, cpf):
+                    books.update_book(book_id, book['title'], book['author'], book['year'], book['amount'], book['amount_available'] + 1)
+                    print(f"Devolução registrada com sucesso para o livro '{book['title']}' do usuário com CPF {cpf}.")
+                else:
+                    print(f"Erro ao registrar a devolução para o livro '{book['title']}' do usuário com CPF {cpf}.")
+
         elif option == "3":
             while True:
                 print("\n--- Listar Empréstimos Ativos ---")
                 print("1. Listar empréstimos por usuário")
                 print("2. Listar empréstimos por livro")
+                print("3. Listar todos os empréstimos")
                 print("0. Voltar")
                 list_option = input("Escolha uma opção: ").strip()
 
@@ -238,6 +256,9 @@ def menu_emprestimos():
                     book_id = int(input("Digite o ID do livro: "))
                     print("\n")
                     loans.get_loans_by_book(book_id)
+                elif list_option == "3":
+                    print("\n")
+                    loans.list_all_active_loans()
                 elif list_option == "0":
                     break
                 else:
@@ -262,7 +283,7 @@ def menu_relatorios():
         elif option == "2":
             users.list_all_users()
         elif option == "3":
-            loans.list_all__active_loans()
+            loans.list_all_loans()
         elif option == "0":
             return
         else:
