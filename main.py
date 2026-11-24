@@ -222,7 +222,26 @@ def menu_emprestimos():
         elif option == "2":
             pass
         elif option == "3":
-            pass
+            while True:
+                print("\n--- Listar Empréstimos Ativos ---")
+                print("1. Listar empréstimos por usuário")
+                print("2. Listar empréstimos por livro")
+                print("0. Voltar")
+                list_option = input("Escolha uma opção: ").strip()
+
+                if list_option == "1":
+                    cpf = input("Digite o CPF do usuário: ").strip()
+                    cpf = ''.join(filter(str.isdigit, cpf))
+                    print("\n")
+                    loans.get_loans_by_user(cpf)
+                elif list_option == "2":
+                    book_id = int(input("Digite o ID do livro: "))
+                    print("\n")
+                    loans.get_loans_by_book(book_id)
+                elif list_option == "0":
+                    break
+                else:
+                    print("Opção inválida.")
         elif option == "0":
             return
         else:
@@ -243,7 +262,7 @@ def menu_relatorios():
         elif option == "2":
             users.list_all_users()
         elif option == "3":
-            pass
+            loans.list_all__active_loans()
         elif option == "0":
             return
         else:

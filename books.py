@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from tabulate import tabulate
 
 class Books:
     #Construtor da classe Books, que carrega os livros do arquivo JSON se ele existir, ou inicializa uma lista vazia caso contrário.
@@ -41,8 +42,12 @@ class Books:
             print("Nenhum livro cadastrado.")
             return
         else:
+            print_data = []
+
             for book in self.books:
-                print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+                print_data.append([book['id'], book['title'], book['author'], book['year'], book['amount'], book['amount_available']])
+            
+            print(tabulate(print_data, headers=["ID", "Título", "Autor", "Ano", "Quantidade", "Disponível"], tablefmt="grid"))
 
     #Método para listar livros por autor.
     def list_books_by_author(self, author):

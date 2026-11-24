@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-
+from tabulate import tabulate
 
 class Users:
     #Método construtor da classe Users, que verifica se o arqui vo JSON de usuários existe. Se existir, carrega os usuários do arquivo; caso contrário, inicializa uma lista vazia.
@@ -47,8 +47,11 @@ class Users:
             print("Nenhum usuário cadastrado.")
             return
         else:
+            print_data = []
             for user in self.users:
-                print(f"Nome: {user['name']}, Email: {user['email']}, CPF: {user['cpf']}")
+                print_data.append([user['name'], user['email'], user['cpf']])
+
+            print(tabulate(print_data, headers=["Nome", "Email", "CPF"], tablefmt="grid"))
 
     #Método para atualizar as informações de um usuário com base no CPF fornecido.
     def update_user(self, cpf, new_name, new_email):

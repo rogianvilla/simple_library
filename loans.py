@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from datetime import date, datetime, timedelta
 from users import Users
+from tabulate import tabulate
 
 class Loans:
     def __init__(self):
@@ -30,13 +31,18 @@ class Loans:
         }
         self.loans.append(loan)
 
-    def list_all_loans(self):
+    def list_all__active_loans(self):
         if not self.loans:
             print("Nenhum empréstimo registrado.")
             return
         else:
+            print_data = []
+
             for loan in self.loans:
-                print(f"ID do Empréstimo: {loan['loan_id']}, ID do Livro: {loan['book_id']}, CPF do Usuário: {loan['cpf']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")
+                if not loan['returned']:
+                    print_data.append([loan['loan_id'], loan['book_id'], loan['cpf'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
+
+            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
 
     def get_loans_by_user(self, cpf):
         user_loans = [loan for loan in self.loans if loan['cpf'] == cpf]
