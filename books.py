@@ -89,6 +89,7 @@ class Books:
                 print_data.append([book['id'], book['title'], book['author'], book['year'], book['amount'], book['amount_available']])
             print(tabulate(print_data, headers=["ID", "Título", "Autor", "Ano", "Quantidade", "Disponível"], tablefmt="grid"))
 
+    #Atualiza os dados de um livro
     def update_book(self, book_id, new_title, new_author, new_year, new_amount, new_amount_available):
         for book in self.books:
             if book['id'] == book_id:
@@ -104,6 +105,7 @@ class Books:
         print("\n")
         print(f"Nenhum livro encontrado com o ID {book_id}.")
 
+    #Exclui do sistema um livro informado
     def remove_book(self, book_id):
         for book in self.books:
             if book['id'] == book_id:

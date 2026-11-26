@@ -80,6 +80,7 @@ class Users:
         return
 
 
+    #método para validação de um número de cpf
     @staticmethod
     def cpf_validate(cpf):
         # Remove pontos e traços

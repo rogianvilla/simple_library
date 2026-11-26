@@ -42,10 +42,13 @@ def menu_livros():
                 list_option = input("Escolha uma opção: ").strip()
                         
                 if list_option == "1":
+                    #Lista livros por autor
                     books.list_books_by_author(input("Digite o nome do autor: ").strip())
                 elif list_option == "2":
+                    #Lista livros por titulo
                     books.list_books_by_title(input("Digite o título do livro: ").strip())
                 elif list_option == "3":
+                    #Lista livros por ano
                     books.list_books_by_year(int(input("Digite o ano de publicação: ")))
                 elif list_option == "0":
                     break
@@ -126,7 +129,9 @@ def menu_usuarios():
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
+        #Realiza o cadastro do usuário utilizando método add_user
         if option == "1":
+            
             name = input("Nome do usuário: ").strip()
             email = input("Email do usuário: ").strip()
             cpf = input("CPF do usuário: ").strip()
@@ -142,6 +147,7 @@ def menu_usuarios():
                     print("\n")
                     print(f"CPF {cpf} inválido.")
 
+        #Consulta os dados do usuário informado
         elif option == "2":
             print("\n--- Consultar Usuário ---")
             cpf = input("Digite o CPF do usuário que deseja consultar: ").strip()
@@ -151,6 +157,8 @@ def menu_usuarios():
                 print(f"Nome: {user['name']}, Email: {user['email']}, CPF: {user['cpf']}")
             else:
                 print(f"Usuário com CPF {cpf} não encontrado.")
+
+        #Atualiza os dados do usuário informado
         elif option == "3":
             print("\n--- Atualizar Usuário ---")
             cpf = input("Digite o CPF do usuário que deseja atualizar: ").strip()
@@ -165,6 +173,8 @@ def menu_usuarios():
                 users.update_user(cpf, new_name, new_email)
             else:
                 print(f"Usuário com CPF {cpf} não encontrado.")
+
+        #Exclui do sistema o usuário informado
         elif option == "4":
             print("\n--- Excluir Usuário ---")
             cpf = input("Digite o CPF do usuário que deseja excluir: ").strip()
@@ -195,6 +205,7 @@ def menu_emprestimos():
         print("0. Voltar")
         option = input("Escolha uma opção: ").strip()
 
+        #Realiza o cadastro de um emprestimo
         if option == "1":
             book_id = int(input("Digite o ID do livro que deseja emprestar: "))
             cpf = input("Digite o CPF do usuário que está realizando o empréstimo: ").strip()
@@ -225,6 +236,7 @@ def menu_emprestimos():
                 print(f"Você deve devolver o livro em sete dias.")
                 indices.get_indices()[0]['loans']['last_id'] = loan_id
 
+        #Realiza a devolução de um livro emprestado
         elif option == "2":
             book_id = int(input("Digite o ID do livro que deseja devolver: "))
             cpf = input("Digite o CPF do usuário que realizou o empréstimo: ").strip()
@@ -241,6 +253,7 @@ def menu_emprestimos():
                 else:
                     print(f"Erro ao registrar a devolução para o livro '{book['title']}' do usuário com CPF {cpf}.")
 
+        #Lista os emprestimos ativos, podendo ser filtrado por usuário ou livro
         elif option == "3":
             while True:
                 print("\n--- Listar Empréstimos Ativos ---")
@@ -271,7 +284,7 @@ def menu_emprestimos():
         else:
             print("Opção inválida.")
 
-
+#Apresenta relatórios de todo o sistema, usuários, livros cadastrados e emprestimos
 def menu_relatorios():
     while True:
         print("\n--- Relatórios ---")

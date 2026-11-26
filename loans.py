@@ -6,6 +6,7 @@ from datetime import date, datetime, timedelta
 from tabulate import tabulate
 
 class Loans:
+    #Metodo contrutor da classe que cria uma lista ou captura dados do arquivo json
     def __init__(self):
         if Path("Collections/loans.json").exists():
             with open("Collections/loans.json", "r") as file:
@@ -13,10 +14,12 @@ class Loans:
         else:
             self.loans = []
 
+    #Metodo para salvar a lista no arquivo json
     def save_loans(self):
         with open("Collections/loans.json", "w", encoding="utf-8") as new_file:
             json.dump(self.loans, new_file, ensure_ascii=False, indent=4)
 
+    #Metodo para a adição de um emprestimo no sistema
     def add_loan(self, book_id, cpf, return_date, returned, loan_id):
         loan_date = datetime.strptime(date.today().strftime("%d/%m/%Y"), "%d/%m/%Y")
         expected_loan_date = (loan_date + timedelta(days=7)).strftime("%d/%m/%Y")
@@ -32,6 +35,7 @@ class Loans:
         }
         self.loans.append(loan)
 
+    #Método para listar todos os emprestimos ativos, ou seja, ainda não devolvidos.
     def list_all_active_loans(self, books, users):
         if not self.loans:
             print("Nenhum empréstimo registrado.")
@@ -45,6 +49,7 @@ class Loans:
 
             print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "Título", "CPF", "Nome", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
 
+    #Método para listar todos os emprestimos, devolvidos ou não
     def list_all_loans(self, books, users):
         if not self.loans:
             print("Nenhum empréstimo registrado.")
@@ -57,6 +62,7 @@ class Loans:
 
             print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "Título", "CPF", "Nome", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
 
+    #Método para listar todos os emprestimos por usuário informado
     def get_loans_by_user(self, user, books):
         if not user:
             print(f"Nenhum empréstimo encontrado para o usuário com CPF {user['cpf']}.")
@@ -68,6 +74,7 @@ class Loans:
             
             print(tabulate(print_data, headers=["ID Emprést.", "ID Livro" , "Titulo", "CPF", "Nome", "D.Empréstimo", "D. Prevista", "D. Devolução", "Devolvido"], tablefmt="grid"))
 
+    #Método para listar todos os emprestimos por livro informado
     def get_loans_by_book(self, book, users):
         if not book:
             print(f"Nenhum empréstimo encontrado para o livro com ID {book['id']}.")
@@ -79,6 +86,7 @@ class Loans:
             
             print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução", "Devolvido"], tablefmt="grid"))
 
+    #Método para atualizar um emprestimos
     def update_loan(self, book_id, cpf):
         for loan in self.loans:
             if loan['book_id'] == book_id and loan['cpf'] == cpf:
@@ -87,6 +95,7 @@ class Loans:
                 return True
         return False
 
+    #Método que verifica se existe um emprestimo ativo
     def get_active_loan(self, cpf, book_id):
         for loan in self.loans:
             if loan['cpf'] == cpf and loan['book_id'] == book_id and loan['returned'] == False:
