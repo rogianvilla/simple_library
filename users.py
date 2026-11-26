@@ -24,6 +24,8 @@ class Users:
             "cpf": cpf
         }
         self.users.append(user)
+        print("\n")
+        print(f"Usuário {name} cadastrado com sucesso.")
 
     #Método para verificar se um usuário já está cadastrado com base no CPF fornecido. Retorna True se o usuário existir, caso contrário, retorna False.
     def verify_user(self, cpf):
@@ -33,7 +35,6 @@ class Users:
         return False
 
     #Método para obter as informações de um usuário com base no CPF fornecido. Retorna o dicionário do usuário se encontrado, caso contrário, retorna None.
-    @staticmethod
     def get_user(self, cpf):
         for user in self.users:
             if user['cpf'] == cpf:
@@ -61,6 +62,8 @@ class Users:
                 user['email'] = new_email
                 print(f"Usuário com CPF {cpf} atualizado com sucesso.")
                 return
+
+        print("\n")
         print(f"Usuário com CPF {cpf} não encontrado.")
         return
 
@@ -69,8 +72,10 @@ class Users:
         for user in self.users:
             if user['cpf'] == cpf:
                 self.users.remove(user)
+                print("\n")
                 print(f"Usuário com CPF {cpf} removido com sucesso.")
                 return
+        print("\n")
         print(f"Usuário com CPF {cpf} não encontrado.")
         return
 

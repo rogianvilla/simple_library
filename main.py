@@ -133,12 +133,13 @@ def menu_usuarios():
             cpf = ''.join(filter(str.isdigit, cpf))
 
             if users.verify_user(cpf):
+                print("\n")
                 print(f"Usuário com CPF {cpf} já está cadastrado.")
             else:
                 if Users.cpf_validate(cpf):
                     users.add_user(name, email, cpf)
-                    print(f"Usuário {name} cadastrado com sucesso.")
                 else:
+                    print("\n")
                     print(f"CPF {cpf} inválido.")
 
         elif option == "2":
@@ -174,8 +175,10 @@ def menu_usuarios():
                 if confirm == "s":
                     users.remove_user(cpf)
                 else:
+                    print("\n")
                     print("Exclusão cancelada.")
             else:
+                print("\n")
                 print(f"Usuário com CPF {cpf} não encontrado.")
         elif option == "0":
             return
@@ -251,14 +254,14 @@ def menu_emprestimos():
                     cpf = input("Digite o CPF do usuário: ").strip()
                     cpf = ''.join(filter(str.isdigit, cpf))
                     print("\n")
-                    loans.get_loans_by_user(cpf)
+                    loans.get_loans_by_user(users.get_user(cpf), books)
                 elif list_option == "2":
                     book_id = int(input("Digite o ID do livro: "))
                     print("\n")
-                    loans.get_loans_by_book(book_id)
+                    loans.get_loans_by_book(books.get_book(book_id), users)
                 elif list_option == "3":
                     print("\n")
-                    loans.list_all_active_loans()
+                    loans.list_all_active_loans(books, users)
                 elif list_option == "0":
                     break
                 else:
@@ -283,7 +286,7 @@ def menu_relatorios():
         elif option == "2":
             users.list_all_users()
         elif option == "3":
-            loans.list_all_loans()
+            loans.list_all_loans(books, users)
         elif option == "0":
             return
         else:

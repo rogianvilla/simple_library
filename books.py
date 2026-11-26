@@ -57,8 +57,11 @@ class Books:
             print(f"Nenhum livro encontrado para o autor {author}.")
             return
         else:
+            print_data = []
             for book in filtered_books:
-                print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+                print_data.append([book['id'], book['title'], book['author'], book['year'], book['amount'], book['amount_available']])
+
+            print(tabulate(print_data, headers=["ID", "Título", "Autor", "Ano", "Quantidade", "Disponível"], tablefmt="grid"))
 
     #Método para listar livros por ano de publicação.
     def list_books_by_year(self, year):
@@ -68,8 +71,10 @@ class Books:
             print(f"Nenhum livro encontrado para o ano {year}.")
             return
         else:
+            print_data = []
             for book in filtered_books:
-                print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+                print_data.append([book['id'], book['title'], book['author'], book['year'], book['amount'], book['amount_available']])
+            print(tabulate(print_data, headers=["ID", "Título", "Autor", "Ano", "Quantidade", "Disponível"], tablefmt="grid"))
 
     #Método para listar livros por título.
     def list_books_by_title(self, title):
@@ -79,8 +84,10 @@ class Books:
             print(f"Nenhum livro encontrado com o título '{title}'.")
             return
         else:
+            print_data = []
             for book in filtered_books:
-                print(f"ID: {book['id']}, Título: {book['title']}, Autor: {book['author']}, Ano: {book['year']}, Quantidade: {book['amount']}, Disponível: {book['amount_available']}")
+                print_data.append([book['id'], book['title'], book['author'], book['year'], book['amount'], book['amount_available']])
+            print(tabulate(print_data, headers=["ID", "Título", "Autor", "Ano", "Quantidade", "Disponível"], tablefmt="grid"))
 
     def update_book(self, book_id, new_title, new_author, new_year, new_amount, new_amount_available):
         for book in self.books:
@@ -90,14 +97,20 @@ class Books:
                 book['year'] = new_year
                 book['amount'] = new_amount
                 book['amount_available'] = new_amount_available
+                print("\n")
                 print(f"Livro com ID {book_id} atualizado com sucesso.")
                 return
+        
+        print("\n")
         print(f"Nenhum livro encontrado com o ID {book_id}.")
 
     def remove_book(self, book_id):
         for book in self.books:
             if book['id'] == book_id:
                 self.books.remove(book)
+                print("\n")
                 print(f"Livro com ID {book_id} removido com sucesso.")
                 return
+        
+        print("\n")
         print(f"Nenhum livro encontrado com o ID {book_id}.")

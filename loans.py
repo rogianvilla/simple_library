@@ -1,7 +1,8 @@
 import json
+from users import Users
+from books import Books
 from pathlib import Path
 from datetime import date, datetime, timedelta
-from users import Users
 from tabulate import tabulate
 
 class Loans:
@@ -31,7 +32,7 @@ class Loans:
         }
         self.loans.append(loan)
 
-    def list_all_active_loans(self):
+    def list_all_active_loans(self, books, users):
         if not self.loans:
             print("Nenhum empréstimo registrado.")
             return
@@ -40,11 +41,11 @@ class Loans:
 
             for loan in self.loans:
                 if not loan['returned']:
-                    print_data.append([loan['loan_id'], loan['book_id'], loan['cpf'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
+                    print_data.append([loan['loan_id'], loan['book_id'], books.get_book(loan['book_id'])['title'], loan['cpf'], users.get_user(loan['cpf'])['name'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
 
-            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
+            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "Título", "CPF", "Nome", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
 
-    def list_all_loans(self):
+    def list_all_loans(self, books, users):
         if not self.loans:
             print("Nenhum empréstimo registrado.")
             return
@@ -52,27 +53,31 @@ class Loans:
             print_data = []
 
             for loan in self.loans:
-                print_data.append([loan['loan_id'], loan['book_id'], loan['cpf'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
+                print_data.append([loan['loan_id'], loan['book_id'], books.get_book(loan['book_id'])['title'], loan['cpf'], users.get_user(loan['cpf'])['name'], loan['loan_date'], loan['expected_retur_date'], loan['return_date']])
 
-            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
+            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "Título", "CPF", "Nome", "D.Empréstimo", "D. Prevista", "D. Devolução"], tablefmt="grid"))
 
-    def get_loans_by_user(self, cpf):
-        user_loans = [loan for loan in self.loans if loan['cpf'] == cpf]
-        if not user_loans:
-            print(f"Nenhum empréstimo encontrado para o usuário com CPF {cpf}.")
+    def get_loans_by_user(self, user, books):
+        if not user:
+            print(f"Nenhum empréstimo encontrado para o usuário com CPF {user['cpf']}.")
             return
         else:
-            for loan in user_loans:
-                print(f"ID do Empréstimo: {loan['loan_id']}, ID do Livro: {loan['book_id']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")
+            print_data = []
+            for loan in self.loans:
+                print_data.append([loan['loan_id'], loan['book_id'], books.get_book(loan['book_id'])['title'], loan['cpf'], user['name'], loan['loan_date'], loan['expected_retur_date'], loan['return_date'], loan['returned']])
+            
+            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro" , "Titulo", "CPF", "Nome", "D.Empréstimo", "D. Prevista", "D. Devolução", "Devolvido"], tablefmt="grid"))
 
-    def get_loans_by_book(self, book_id):
-        book_loans = [loan for loan in self.loans if loan['book_id'] == book_id]
-        if not book_loans:
-            print(f"Nenhum empréstimo encontrado para o livro com ID {book_id}.")
+    def get_loans_by_book(self, book, users):
+        if not book:
+            print(f"Nenhum empréstimo encontrado para o livro com ID {book['id']}.")
             return
         else:
-            for loan in book_loans:
-                print(f"ID do Empréstimo: {loan['loan_id']}, CPF do Usuário: {loan['cpf']}, Data do Empréstimo: {loan['loan_date']}, Data de Devolução Esperada: {loan['expected_retur_date']}, Data de Devolução: {loan['return_date']}, Devolvido: {loan['returned']}")
+            print_data = []
+            for loan in self.loans:
+                print_data.append([loan['loan_id'], loan['book_id'], book['title'], loan['cpf'], users.get_user(loan['cpf'])['name'], loan['loan_date'], loan['expected_retur_date'], loan['return_date'], loan['returned']])
+            
+            print(tabulate(print_data, headers=["ID Emprést.", "ID Livro", "CPF", "D.Empréstimo", "D. Prevista", "D. Devolução", "Devolvido"], tablefmt="grid"))
 
     def update_loan(self, book_id, cpf):
         for loan in self.loans:
